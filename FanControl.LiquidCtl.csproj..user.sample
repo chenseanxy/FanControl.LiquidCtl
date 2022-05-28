@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <!-- Be ware: when lanuching FanControl this way -->
+    <!-- Plugins doesn't seem to get loaded -->
+    <StartAction>Program</StartAction>
+    <StartProgram>C:\FanControl\FanControl.exe</StartProgram>
+    <OutputPath>C:\FanControl\Plugins</OutputPath>
+  </PropertyGroup>
+</Project>
