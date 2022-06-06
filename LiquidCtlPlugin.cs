@@ -10,8 +10,12 @@ namespace FanControl.LiquidCtl
 
 		private LiquidCtlExecutor liquidctl;
 		private Dictionary<string, DeviceSensor> sensors;
+		private readonly IPluginLogger _logger;
 
-		private readonly object _lock = new object();
+		public LiquidCtlPlugin(IPluginLogger logger)
+		{
+			_logger = logger;
+		}
 
 		public void Close()
 		{
@@ -20,8 +24,8 @@ namespace FanControl.LiquidCtl
 
 		public void Initialize()
 		{
-			this.liquidctl = new LiquidCtlExecutor();
-			Console.WriteLine("Initializing");
+			this.liquidctl = new LiquidCtlExecutor(this._logger);
+			this.liquidctl.Init();
 			var devices = this.liquidctl.Execute<List<DeviceInitResult>>("initialize");
 			this.sensors = new Dictionary<string, DeviceSensor>();
 		}
