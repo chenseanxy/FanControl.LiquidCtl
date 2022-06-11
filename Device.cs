@@ -8,7 +8,7 @@ namespace FanControl.LiquidCtl
 	public class StatusValue
 	{
 		public string key { get; set; }
-		public double value { get; set; }
+		public double? value { get; set; }
 		public string unit { get; set; }
 	}
 

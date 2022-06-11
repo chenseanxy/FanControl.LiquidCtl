@@ -21,7 +21,11 @@
 
 ## Filing issues
 
-Please provide error logs (if any) and `liquidctl list --json` output
+Please provide the following:
+
+- Error logs in log.txt
+- Versions of: this plugin, Python and FanControl
+- Output of `liquidctl list --json` and `liquidctl status --json`
 
 ## TODOs
 

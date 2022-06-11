@@ -38,7 +38,7 @@ namespace FanControl.LiquidCtl
 			{
 				foreach (var channel in device.status)
 				{
-					if (!supported_units.Contains(channel.unit)) { continue; }
+					if (!supported_units.Contains(channel.unit) || channel.value == null) { continue; }
 					if (channel.unit == "%")
 					{
 						var sensor = new ControlSensor(device, channel, liquidctl);
@@ -63,6 +63,7 @@ namespace FanControl.LiquidCtl
 			{
 				foreach (var channel in device.status)
 				{
+					if (channel.value == null) { continue; }
 					var sensor = new DeviceSensor(device, channel, liquidctl);
 					if (!this.sensors.ContainsKey(sensor.Id)) { continue; }
 					sensors[sensor.Id].Update(channel);
