@@ -102,9 +102,10 @@ def emulate_cli(arg: str):
                                 device_id=device_id, json=json, **opts)
         return
 
-    if len(selected) > 1 and not (args['status'] or args['all']):
-        errors.log('too many devices, filter or select one (see: liquidctl --help)')
-        return errors.exit_code()
+    # initialize all devices on startup
+    # if len(selected) > 1 and not (args['status'] or args['all']):
+    #     errors.log('too many devices, filter or select one (see: liquidctl --help)')
+    #     return errors.exit_code()
     elif len(selected) == 0:
         errors.log('no device matches available drivers and selection criteria')
         return errors.exit_code()
