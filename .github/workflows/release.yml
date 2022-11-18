@@ -1,4 +1,4 @@
-name: Create Release
+name: Release
 on:
   push:
     branches:
@@ -27,15 +27,15 @@ jobs:
       uses: thedoctor0/zip-release@main
       with:
         type: 'zip'
-        path: 'bin/Release'
-        filename: 'bin/FanControl.LiquidCtl.${{github.ref_name}}.zip'
+        directory: 'bin/Release'
+        filename: 'FanControl.LiquidCtl.${{github.ref_name}}.zip'
         exclusions: '*.xml *.pdb FanControl.Plugins.dll'
     
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
         name: FanControl.LiquidCtl.${{github.ref_name}}.zip
-        path: bin/FanControl.LiquidCtl.${{github.ref_name}}.zip
+        path: bin/Release/FanControl.LiquidCtl.${{github.ref_name}}.zip
 
     - name: Create Release
       uses: marvinpinto/action-automatic-releases@latest
@@ -43,4 +43,4 @@ jobs:
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         prerelease: true
-        files: bin/FanControl.LiquidCtl.${{github.ref_name}}.zip
+        files: bin/Release/FanControl.LiquidCtl.${{github.ref_name}}.zip
