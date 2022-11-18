@@ -17,7 +17,14 @@ jobs:
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1
     
+    - uses: actions/cache@v1
+      id: cache
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.config') }}
+
     - name: Restore Packages
+      if: steps.cache.outputs.cache-hit != 'true'
       run: nuget restore FanControl.LiquidCtl.sln
 
     - name: Build Solution
