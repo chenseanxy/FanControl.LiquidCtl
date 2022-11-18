@@ -1,0 +1,41 @@
+name: Create Release
+on:
+  push:
+    branches:
+      - "actions"
+    tags:
+      - 'v*'
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1
+
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v
+    
+    - name: Create Build Directory
+      run: mkdir bin
+    
+    - name: Restore Packages
+      run: nuget restore FanControl.LiquidCtl.sln
+
+    - name: Build Solution
+      run: msbuild.exe FanControl.LiquidCtl.sln /p:configuration="Release"
+
+    - name: Archive Release
+      uses: thedoctor0/zip-release@main
+      with:
+        type: 'zip'
+        filename: 'bin/FanControl.LiquidCtl.${{github.ref_name}}.zip'
+        exclusions: '*.xml *.pdb'
+    
+    - uses: actions/upload-artifact@v3
+      with:
+        name: Build failure logs
+        path: bin/FanControl.LiquidCtl.${{github.ref_name}}.zip
+
+  
