@@ -30,12 +30,13 @@ jobs:
       uses: thedoctor0/zip-release@main
       with:
         type: 'zip'
+        path: 'bin/Release'
         filename: 'bin/FanControl.LiquidCtl.${{github.ref_name}}.zip'
-        exclusions: '*.xml *.pdb'
+        exclusions: '*.xml *.pdb FanControl.Plugins.dll'
     
     - uses: actions/upload-artifact@v3
       with:
-        name: Build failure logs
+        name: FanControl.LiquidCtl.${{github.ref_name}}.zip
         path: bin/FanControl.LiquidCtl.${{github.ref_name}}.zip
 
   
