@@ -81,10 +81,6 @@ namespace FanControl.LiquidCtl
 				foreach (var intf in interface_channels.Keys)
 				{
 					var channels = interface_channels[intf];
-					foreach (var channel in channels)
-					{
-						this._logger.Log($"{channel.GetType()}{channel is ControlSensor}");
-					}
 					if (channels.Count == 0 || channels.Exists(channel => channel is ControlSensor))
 					{
 						continue;

@@ -26,13 +26,13 @@ namespace FanControl.LiquidCtl
 
 		public T Execute<T>(string arguments)
 		{
-			// this._logger.Log($"exec {arguments}");
+			this._logger.Log($"exec {arguments}");
 			string result;
 			using (Py.GIL())
 			{
 				result = this.liquidctl.emulate_cli(arguments + " --json");
 			}
-			// this._logger.Log($"{arguments} => {result}");
+			this._logger.Log($"{arguments} => {result}");
 			var settings = new JsonSerializerSettings { Error = (se, ev) => {
 				this._logger.Log($"Error on {arguments}: {ev.ErrorContext.Error.Message}, raw_message={result}");
 				ev.ErrorContext.Handled = true; 
