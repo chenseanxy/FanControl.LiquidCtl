@@ -1,5 +1,7 @@
 ﻿# FanControl.LiquidCtl
 
+[![Release](https://github.com/chenseanxy/FanControl.LiquidCtl/actions/workflows/release.yml/badge.svg)](https://github.com/chenseanxy/FanControl.LiquidCtl/actions/workflows/release.yml)
+
 > A one-nighter project, born after me being annoyed by NZXT's stupid CAM software for 2 hours  
 > Therefore compatibility might be problematic, only verified on NZXT Kraken X (X53, X63 or X73) devices.
 
