@@ -1,6 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System.Diagnostics;
-using System.IO;
 using Python.Runtime;
 using FanControl.Plugins;
 
