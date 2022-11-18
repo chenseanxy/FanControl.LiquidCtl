@@ -33,7 +33,10 @@ namespace FanControl.LiquidCtl
 				result = this.liquidctl.emulate_cli(arguments + " --json");
 			}
 			// this._logger.Log($"{arguments} => {result}");
-			var settings = new JsonSerializerSettings { Error = (se, ev) => { ev.ErrorContext.Handled = true; } };
+			var settings = new JsonSerializerSettings { Error = (se, ev) => {
+				this._logger.Log($"Error on {arguments}: {ev.ErrorContext.Error.Message}, raw_message={result}");
+				ev.ErrorContext.Handled = true; 
+			}};
 			return JsonConvert.DeserializeObject<T>(result, settings);
 		}
 	}

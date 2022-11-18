@@ -30,17 +30,12 @@ namespace FanControl.LiquidCtl
 		{
 			get
 			{
-				switch (this.Channel.unit)
-				{
-					case "%":
-						return (float)this.Channel.value;
-					default:
-						return (float)this.Channel.value;
-				}
+				return (float)this.Channel.value;
 			}
 		}
+		public string LiquidctlInterfaceName => this.Channel.key.Split(' ')[0].ToLower();
 		public void Update() { }
-		internal void Update(StatusValue status)
+		public void Update(StatusValue status)
 		{
 			this.Channel = status;
 		}
@@ -62,7 +57,8 @@ namespace FanControl.LiquidCtl
 		internal ControlSensor(DeviceStatus device, StatusValue channel, LiquidCtlExecutor executor) :
 			base(device, channel, executor)
 		{
-			this.Initial = this.Value;
+			// initial value protection: don't reset speeds back to 0
+			this.Initial = this.Value.GetValueOrDefault()==0 ? this.Value : 50;
 		}
 
 		public void Reset()
@@ -76,8 +72,24 @@ namespace FanControl.LiquidCtl
 		public void Set(float val)
 		{
 			int target = (int)Math.Round(val);
-			var channel = this.Channel.key.Split(' ')[0].ToLower();
-			var _ = this.Executor.Execute<List<DeviceStatus>>($"set {channel} speed {target}");
+			var _ = this.Executor.Execute<List<DeviceStatus>>($"set {this.LiquidctlInterfaceName} speed {target}");
+		}
+	}
+
+	public class ControlOnlySensor : ControlSensor
+	{
+		internal ControlOnlySensor(DeviceStatus device, StatusValue channel, LiquidCtlExecutor executor) :
+		base(device, channel, executor)
+		{ }
+
+		public static ControlOnlySensor CopyFrom(DeviceSensor sensor)
+		{
+			var channel = new StatusValue();
+			channel.key = $"{sensor.LiquidctlInterfaceName} duty";
+			channel.unit = "%";
+			channel.value = 0;
+
+			return new ControlOnlySensor(sensor.Device, channel, sensor.Executor);
 		}
 	}
 }
