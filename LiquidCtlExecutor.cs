@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Python.Runtime;
 using FanControl.Plugins;
+using System;
 
 namespace FanControl.LiquidCtl
 {

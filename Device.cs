@@ -77,7 +77,10 @@ namespace FanControl.LiquidCtl
 		{
 			int target = (int)Math.Round(val);
 			var channel = this.Channel.key.Split(' ')[0].ToLower();
-			var _ = this.Executor.Execute<List<DeviceStatus>>($"set {channel} speed {target}");
+			var _ = this.Executor.Execute<List<DeviceStatus>>(
+				// Filter to current device
+				// Assume there's one type of device per install
+				$"-m \"{this.Device.description}\" set {channel} speed {target}");
 		}
 	}
 }

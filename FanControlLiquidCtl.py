@@ -3,15 +3,16 @@ from liquidctl.cli import (
     _PARSE_ARG, _FILTER_OPTIONS, _VALUE_FORMATS, _LOGGER,
     _list_devices_objs, _list_devices_human, _dev_status_obj, _print_dev_status,
     _device_set_color, _device_set_speed,
-    _make_opts, _log_requirements, _ErrorAcc
+    _make_opts, _log_env_infos, _ErrorAcc
 )
 from liquidctl import cli, __version__
+import shlex
 import json
 
 
 # Modified from liquidctl.cli to emulate cli interface
 def emulate_cli(arg: str):
-    args = docopt(cli.__doc__, argv=arg.split(" "))
+    args = docopt(cli.__doc__, argv=shlex.split(arg))
 
     if args['--version']:
         print(f'liquidctl v{__version__} ({platform.platform()})')
@@ -53,9 +54,7 @@ def emulate_cli(arg: str):
     log_handler.setFormatter(log_fmtter)
     logging.basicConfig(level=log_level, handlers=[log_handler])
 
-    _LOGGER.debug('liquidctl: %s', __version__)
-    _LOGGER.debug('platform: %s', platform.platform())
-    _log_requirements()
+    _log_env_infos()
 
     if __name__ == '__main__':
         _LOGGER.warning('python -m liquidctl.cli is deprecated, prefer python -m liquidctl')
@@ -69,7 +68,6 @@ def emulate_cli(arg: str):
         args['--verbose'] = True
 
     opts = _make_opts(args)
-    opts['_internal_called_from_cli'] = True  # FOR INTERNAL USE ONLY, DO NOT REPLICATE ELSEWHERE
     filter_count = sum(1 for opt in opts if opt in _FILTER_OPTIONS)
     device_id = None
 
@@ -108,6 +106,7 @@ def emulate_cli(arg: str):
     elif len(selected) == 0:
         errors.log('no device matches available drivers and selection criteria')
         return errors.exit_code()
+
 
     # for json
     obj_buf = []

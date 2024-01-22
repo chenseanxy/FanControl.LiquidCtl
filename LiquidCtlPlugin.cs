@@ -26,7 +26,7 @@ namespace FanControl.LiquidCtl
 		{
 			this.liquidctl = new LiquidCtlExecutor(this._logger);
 			this.liquidctl.Init();
-			var devices = this.liquidctl.Execute<List<DeviceInitResult>>("initialize");
+			var devices = this.liquidctl.Execute<List<DeviceInitResult>>("initialize all");
 			this.sensors = new Dictionary<string, DeviceSensor>();
 		}
 
